@@ -1,5 +1,5 @@
 # zoom-big-app
 
-clone repo
-npm install
+clone repo <br/>
+npm install <br/>
 nodemon server.js
