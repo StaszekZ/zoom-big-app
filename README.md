@@ -2,4 +2,5 @@
 
 clone repo <br/>
 npm install <br/>
-nodemon server.js
+nodemon server.js <br/>
+localhost:3030
