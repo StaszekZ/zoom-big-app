@@ -6,7 +6,7 @@ const videoGrid = document.getElementById('video-grid');
 const peer = new Peer(undefined, {
   path: '/peerjs',
   host: '/',
-  port: '3030'
+  port: '443'
 })
 // my video
 const myVideo = document.createElement('video');
@@ -23,33 +23,20 @@ let myVideoStream
     video: true,
     audio: true,
     }).then(stream => {
-			myVideoStream = stream;
-			addVideoStream(myVideo, stream);
-
-			peer.on('call', call => {
-				call.answer(stream);
-				const video = document.createElement('video');
-				call.on('stream', userVideoStream => {
-					addVideoStream(video, userVideoStream);
-				});
-			});
-			socket.on('user-connected', userID => {
-				connectToNewUser(userID, stream);
-			});
-			// chat messages
-			let text = $('input');
-			$('html').keydown(e => {
-				if (e.which == 13 && text.val().length !== 0) {
-					socket.emit('message', text.val());
-					text.val('');
-				}
-			});
-
-			socket.on('createMessage', message => {
-				$('ul').append(`<li class="message"><b>user</b><br/>${message} </li>`);
-				scrollToBottom();
-			});
-		})
+      myVideoStream = stream;
+      addVideoStream(myVideo, stream)
+    
+      peer.on('call', call => {
+        call.answer(stream)
+        const video = document.createElement('video');
+        call.on('stream', userVideoStream => {
+          addVideoStream(video, userVideoStream);
+        });
+      })
+      socket.on('user-connected', userID => {
+        connectToNewUser(userID, stream);
+      })
+    })
     
     socket.on('user-disconnected', userID => {
       if(peers[userID]) peers[userID].close();
@@ -70,7 +57,6 @@ const connectToNewUser = (userID, stream) => {
     video.remove();
   })
   peers[userID] = call
-  console.log('peers', peers)
 }
 
 
@@ -83,7 +69,19 @@ const addVideoStream = (video, stream) => {
 };
 
 
-
+// chat messages
+    let text = $('input');
+    $('html').keydown(e => {
+      if (e.which == 13 && text.val().length !== 0) {
+        socket.emit('message', text.val());
+        text.val('');
+      }
+    })
+  
+    socket.on('createMessage', message => {
+      $('ul').append(`<li class="message"><b>user</b><br/>${message} </li>`);
+      scrollToBottom();
+    });
 
 function scrollToBottom (){
   const mainChat = $('.main__chat_window');
