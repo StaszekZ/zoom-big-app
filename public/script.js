@@ -57,6 +57,7 @@ const connectToNewUser = (userID, stream) => {
     video.remove();
   })
   peers[userID] = call
+  console.log('peers', peers)
 }
 
 
