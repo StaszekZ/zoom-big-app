@@ -28,6 +28,9 @@ io.on('connection', socket => {
     socket.join(roomID);
     socket.to(roomID).broadcast.emit('user-connected', userID);
     
+    socket.on('disconnect', ()=> {
+      socket.to(roomID).broadcast.emit('user-disconnected', userID);
+    })
     socket.on('message', message => {
       io.to(roomID).emit('createMessage', message )
     })
@@ -37,4 +40,4 @@ io.on('connection', socket => {
 
 
 
-server.listen(proces.env.PORT || 3030);
+server.listen(process.env.PORT || 3030);
