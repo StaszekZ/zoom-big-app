@@ -128,3 +128,7 @@ video{
 .unmute, .stop {
     color: #CC3B33;
 }
+
+span{
+    text-align: center;
+}
