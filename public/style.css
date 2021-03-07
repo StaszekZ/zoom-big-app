@@ -18,16 +18,23 @@ video{
     height: 100vh;
     width: 100vw;
     display: flex;
+    overflow: hidden;
 }
 
 .main__left {
-    flex: 0.8;
+    position: relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .main__right {
-    flex: 0.2
+    flex: 0.2;
+    display: flex;
+    flex-direction: column;
+    background-color: #242324;
+    border-left: 1px solid #3D3D42;
+    transition: all 2s ease;
 }
 
 .main__videos {
@@ -49,16 +56,9 @@ video{
     align-items: center;
     flex-wrap: wrap;
 }
+
 .main__controls {
     background-color: #1C1E20;
-}
-
-.main__right {
-    background-color: #242324;
-    border-left: 1px solid #3D3D42;
-}
-
-.main__controls {
     color: #D2D2D2;
     display: flex;
     justify-content: space-between;
@@ -86,11 +86,6 @@ video{
 
 .main__controls__button i {
     font-size: 24px;
-}
-
-.main__right {
-    display: flex;
-    flex-direction: column;
 }
 
 .main__header {
@@ -131,4 +126,9 @@ video{
 
 span{
     text-align: center;
+}
+
+
+.visibleChat{
+    display: none; 
 }

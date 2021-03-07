@@ -156,3 +156,21 @@ const setPlayVideo = () => {
   `;
 	document.querySelector('.main__video_button').innerHTML = html;
 };
+
+
+// hiding chat 
+const chatButton = document.querySelector('.chatButton'); ;
+const chatWindow = document.querySelector('.main__right')
+const mainWindow = document.querySelector('.main__left');
+
+const showHideChat = () => {
+  chatWindow.classList.toggle('visibleChat');
+}
+chatButton.addEventListener('click', showHideChat);
+
+
+// leave meeting 
+const leaveButton = document.querySelector('.leave_meeting')
+const leaveMeeting = () => { if (confirm('Czy na pewno chcesz opuścic spotkanie?')) location.replace('https://enterosoft.com') };
+
+leaveButton.addEventListener('click', leaveMeeting)
