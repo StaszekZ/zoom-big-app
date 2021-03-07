@@ -1,5 +1,4 @@
-const socket = io('/')
-
+const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
 // console.log(myVideo)
 
@@ -10,18 +9,20 @@ const peer = new Peer(undefined, {
 })
 // my video
 const myVideo = document.createElement('video');
-myVideo.muted = true;
+// myVideo.muted = true;
 
 // list of currently logged users
-const peers = {}
+const peers = {};
 
 // to have ability to stop video
-let myVideoStream
+let myVideoStream;
 
 // getting cam and mic
-    navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true,
+
+const requestMediaStream = (videoRequest, audioRequest) => {
+  navigator.mediaDevices.getUserMedia({
+    video: videoRequest,
+    audio: audioRequest,
     }).then(stream => {
       myVideoStream = stream;
       addVideoStream(myVideo, stream)
@@ -37,16 +38,26 @@ let myVideoStream
         connectToNewUser(userID, stream);
       })
     })
-    
+    .catch(error => {
+      console.log(error);
+      if(error) {
+        const videoButton = document.querySelector('.main__video_button');
+        videoButton.style.pointerEvents = 'none';
+        videoButton.style.color = 'grey';
+        requestMediaStream(false, true);
+      }
+    })
+
     socket.on('user-disconnected', userID => {
       if(peers[userID]) peers[userID].close();
     })
     peer.on('open', id=> {
       socket.emit('join-room', ROOM_ID, id)
     })
+}
 
-    
-    
+requestMediaStream(true, true);
+
 const connectToNewUser = (userID, stream) => {
   const call = peer.call(userID, stream);
   const video = document.createElement('video');
@@ -102,7 +113,6 @@ const muteUnmute = () => {
 };
 
 const playStop = () => {
-	console.log('object');
 	let enabled = myVideoStream.getVideoTracks()[0].enabled;
 	if (enabled) {
 		myVideoStream.getVideoTracks()[0].enabled = false;
